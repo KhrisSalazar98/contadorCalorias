@@ -8,6 +8,14 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <Header />
+            <View>
+                <View style={styles.leftContainer}>
+
+                </View>
+                <View style={styles.rightContainer}>
+
+                </View>
+            </View>
         </View>
     );
 };
@@ -17,6 +25,12 @@ const styles = StyleSheet.create({
         padding: 12,
         backgroundColor: '#fff',
         flex: 1
+    },
+    leftContainer: {
+
+    },
+    rightContainer: {
+        
     }
 });
 
