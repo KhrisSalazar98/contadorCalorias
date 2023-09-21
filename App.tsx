@@ -1,22 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import React from "react";
+import {StyleSheet} from 'react-native'
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import Routes from "./src/routes";
+
+
 
 function App(): JSX.Element {
   return (
-    <View style={styles.container}>
-      <Text>Comenzando con el desarrollo de contador de calorías :3</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <Routes />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: {flex: 1}
 });
 
 export default App;
