@@ -14,11 +14,15 @@ const Header = () => {
 
     return (
         <View style={styles.container}>
-            {canGoBack() ? (
+            {canGoBack() && (
                 <View style={styles.arrowContainer}>
-                    <Button icon={<Icon name='arrow-back' size={24} />} />
+                    <Button 
+                        icon={<Icon name='arrow-back' size={24} />}
+                        type="clear"
+                        onPress={() => goBack()}
+                    />
                 </View>
-            ): undefined}
+            )}
             <View style={styles.leftContainer}>
                 <Text style={styles.name}>{`Hello, ${staticInfo.name}`}</Text>
                 <Text style={styles.subtitle}>Welcolme back to your goal</Text>
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
         borderRadius: 24
     },
     arrowContainer: {
-
+        marginLeft: -12
     }
 });
 
