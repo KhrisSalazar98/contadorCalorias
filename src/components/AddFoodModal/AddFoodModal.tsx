@@ -1,6 +1,6 @@
-import { Button, Icon } from "@rneui/themed";
+import { Button, Icon, Input } from "@rneui/themed";
 import React, {FC} from "react";
-import { Modal, View, StyleSheet} from "react-native";
+import { Modal, View, StyleSheet, Text} from "react-native";
 
 type AddFoodModalProps = {
     onClose: () => void;
@@ -24,8 +24,51 @@ const AddFoodModal: FC<AddFoodModalProps> = ({onClose, visible}) => {
                             type="clear"
                         />
                     </View>
-                    <View style={styles.formItem}>
 
+                    {/* KCAL */}
+                    <View style={styles.formItem}>
+                        
+                        <View style={styles.inputContainer}>
+                            <Input />
+                        </View>
+                        <View style={styles.legendContainer}>
+                            <Text style={styles.legend}>KCAL</Text>
+                        </View>
+
+                    </View>
+
+                    {/* Nombre */}
+                    <View style={styles.formItem}>
+                        
+                        <View style={styles.inputContainer}>
+                            <Input />
+                        </View>
+                        <View style={styles.legendContainer}>
+                            <Text style={styles.legend}>Name</Text>
+                        </View>
+
+                    </View>
+
+                    {/* Porción */}
+                    <View style={styles.formItem}>
+                        
+                        <View style={styles.inputContainer}>
+                            <Input />
+                        </View>
+                        <View style={styles.legendContainer}>
+                            <Text style={styles.legend}>Portion</Text>
+                        </View>
+
+                    </View>
+
+                    {/* Btn */}
+                    <View style={styles.buttonContainer}>
+                        <Button 
+                            title='Add'
+                            icon={<Icon name='add' color='#fff' />}
+                            radius='lg'
+                            color='#4ecb71' 
+                        />
                     </View>
                     
                 </View>
@@ -59,7 +102,20 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     formItem: {
-        
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    inputContainer: {
+        flex: 2
+    },
+    legendContainer: {
+        flex: 1
+    },
+    legend: {
+        fontWeight: '500'
+    },
+    buttonContainer: {
+        alignItems: 'flex-end'
     }
 });
 
