@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
 import Header from '../../components/Header';
-import { Button, Icon } from '@rneui/themed';
+import { Button, Icon, Input } from '@rneui/themed';
+import AddFoodModal from '../../components/AddFoodModal';
 
 const AddFood = () => {
+
+    const [visible, setVisible] = useState(false);
+
+    const handleModalClose = () => {
+        setVisible(false);
+    };
+
     return (
         <View style={styles.container}>
             <Header />
             <View style={styles.addFoodContainer}>
 
                 <View style={styles.legendContainer}>
-                    <Text>
+                    <Text style={styles.addFoodLegend}>
                         Add Food
                     </Text>
                 </View>
@@ -21,12 +29,26 @@ const AddFood = () => {
                             icon={<Icon name='add-circle-outline' color='#fff' />} 
                             radius='lg'
                             color='#4ecb71'
+                            onPress={() => setVisible(true)}
                         />
                     </Text>
                 </View>
 
             </View>
-            
+            <View style={styles.searchContainer}>
+                <View style={styles.inputContainer}>
+                    <Input placeholder='apples, pie, soda...' />
+                </View>
+                <View style={styles.searchBtn}>
+                    <Button 
+                        title='Search'
+                        color='#ade8af'
+                        titleStyle={styles.searchBtnTitle} 
+                        radius='lg'
+                    />
+                </View>
+            </View>
+            <AddFoodModal visible={visible} onClose={handleModalClose} />
         </View>
     );
 };
@@ -48,6 +70,24 @@ const styles = StyleSheet.create({
     addFoodBtnContainer: {
         flex: 1,
         alignItems: 'flex-end'
+    },
+    addFoodLegend: {
+        fontSize: 20
+    },
+    searchContainer: {
+        flexDirection: 'row',
+
+    },
+    inputContainer: {
+        flex: 1,
+        marginLeft: -12
+    },
+    searchBtn: {
+        
+    },
+    searchBtnTitle: {
+        color: '#000',
+        fontSize: 14
     }
 });
 
