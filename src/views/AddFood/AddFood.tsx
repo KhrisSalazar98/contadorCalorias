@@ -4,12 +4,32 @@ import {View, Text, StyleSheet} from 'react-native';
 import Header from '../../components/Header';
 import { Button, Icon, Input } from '@rneui/themed';
 import AddFoodModal from '../../components/AddFoodModal';
+import { Alert } from 'react-native';
+import useFoodStorage from '../../hooks/useFoodStorage';
+import { Meal } from '../../types';
 
 const AddFood = () => {
 
     const [visible, setVisible] = useState(false);
+    const [foods, setFoods] = useState<Meal[]>([]);
+    const {onGetFoods} = useFoodStorage();
+    
+    const loadFoods = async () => {
+        try {
+            const foodsResponse = await onGetFoods();
+            setFoods(foodsResponse);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-    const handleModalClose = () => {
+    const handleModalClose = async (shouldUpdate?: boolean) => {
+        
+        if(shouldUpdate) {
+            Alert.alert('Comida guardada exitosamente');  
+            loadFoods();
+        }
+
         setVisible(false);
     };
 
