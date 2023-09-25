@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { Button, Icon } from '@rneui/themed';
 
 import Header from '../../components/Header';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types';
+import { Meal, RootStackParamList } from '../../types';
+import useFoodStorage from '../../hooks/useFoodStorage';
 
 const Home = () => {
 
+    const [todayFood, setTodayFood] = useState<Meal[]>([]);
+    const {onGetTodayFood} = useFoodStorage();
     const {navigate} = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>();
+
+    const loadTodayFood = useCallback(async () => {
+        
+        try {
+            
+            const todayFoodResponse = await onGetTodayFood();
+            setTodayFood(todayFoodResponse);
+        
+        } catch (error) {
+
+            setTodayFood([]);
+            console.error(error);
+        }
+
+    },[]);
+
+    useFocusEffect(useCallback(() => {
+        loadTodayFood().catch(null);
+    }, [loadTodayFood]));
 
     const handleAddCaloriesPress = () => {
         navigate('AddFood');
     };
+
+    console.log(todayFood);
 
     return (
         <View style={styles.container}>
