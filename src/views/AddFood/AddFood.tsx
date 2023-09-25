@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import Header from '../../components/Header';
 import { Button, Icon, Input } from '@rneui/themed';
 import AddFoodModal from '../../components/AddFoodModal';
 import { Alert } from 'react-native';
 import useFoodStorage from '../../hooks/useFoodStorage';
 import { Meal } from '../../types';
+import MealItem from '../../components/MealItem';
 
 const AddFood = () => {
 
@@ -22,6 +23,10 @@ const AddFood = () => {
             console.error(error);
         }
     }
+
+    useEffect(() => {
+        loadFoods().catch(null);
+    },[])
 
     const handleModalClose = async (shouldUpdate?: boolean) => {
         
@@ -68,6 +73,11 @@ const AddFood = () => {
                     />
                 </View>
             </View>
+            
+            <ScrollView style={styles.content}>
+                {foods?.map((meal,i) => <MealItem key={`my-meal-item-${i}`} {...meal} />)}
+            </ScrollView>
+
             <AddFoodModal visible={visible} onClose={handleModalClose} />
         </View>
     );
@@ -108,6 +118,9 @@ const styles = StyleSheet.create({
     searchBtnTitle: {
         color: '#000',
         fontSize: 14
+    },
+    content: {
+
     }
 });
 
