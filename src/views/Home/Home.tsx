@@ -9,6 +9,7 @@ import Header from '../../components/Header';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Meal, RootStackParamList } from '../../types';
 import useFoodStorage from '../../hooks/useFoodStorage';
+import TodayCalories from '../../components/TodayCalories';
 
 const Home = () => {
 
@@ -40,8 +41,6 @@ const Home = () => {
         navigate('AddFood');
     };
 
-    console.log(todayFood);
-
     return (
         <View style={styles.container}>
             <Header />
@@ -58,6 +57,7 @@ const Home = () => {
                     />
                 </View>
             </View>
+            <TodayCalories />
         </View>
     );
 };
