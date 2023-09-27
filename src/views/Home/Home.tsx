@@ -87,7 +87,7 @@ const Home = () => {
                 </View>
             </View>
             <TodayCalories {...todayStatistics} />
-            <TodayMeals foods={todayFood} />
+            <TodayMeals foods={todayFood} onCompleteAddRemove={() => loadTodayFood()} />
         </View>
     );
 };

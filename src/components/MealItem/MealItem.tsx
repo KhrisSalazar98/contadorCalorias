@@ -6,11 +6,13 @@ import useFoodStorage from "../../hooks/useFoodStorage";
 
 type MealItemProps = Meal & {
     isAbleToAdd?: boolean;
+    onCompleteAddRemove: () => void;
+    itemPosition?: number;
 };
 
-const MealItem: FC<MealItemProps> = ({calories, name, portion, isAbleToAdd}) => {
+const MealItem: FC<MealItemProps> = ({calories, name, portion, isAbleToAdd, itemPosition, onCompleteAddRemove}) => {
 
-    const { onSaveTodayFood } = useFoodStorage();
+    const { onSaveTodayFood, onDeleteTodayFood } = useFoodStorage();
 
     const handleIconPress = async () => {
         try {
@@ -18,8 +20,11 @@ const MealItem: FC<MealItemProps> = ({calories, name, portion, isAbleToAdd}) => 
                 await onSaveTodayFood({calories, name, portion});
                 Alert.alert('Comida agregada al día');
             } else {
-
+                await onDeleteTodayFood(itemPosition ?? -1);
+                Alert.alert('Comida eliminada');
             }
+
+            onCompleteAddRemove?.();
             
         } catch (error) {
             console.error(error);
