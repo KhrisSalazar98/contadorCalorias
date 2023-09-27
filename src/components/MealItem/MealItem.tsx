@@ -1,9 +1,23 @@
 import React, {FC} from "react";
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import { Meal } from "../../types";
 import { Button, Icon } from "@rneui/themed";
+import useFoodStorage from "../../hooks/useFoodStorage";
 
-const MealItem: FC<Meal> = ({calories, portion, name}) => {
+const MealItem: FC<Meal> = ({calories, name, portion}) => {
+
+    const { onSaveTodayFood } = useFoodStorage();
+
+    const handleAddItemPress = async () => {
+        try {
+            await onSaveTodayFood({calories, name, portion});
+            Alert.alert('Comida agregada al día');
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Comida no agregada');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
@@ -11,7 +25,12 @@ const MealItem: FC<Meal> = ({calories, portion, name}) => {
                 <Text style={styles.portion}>{portion}</Text>
             </View>
             <View style={styles.rightContainer}>
-                <Button icon={<Icon name='add-circle-outline' />} type='clear' style={styles.iconButton} />
+                <Button 
+                    icon={<Icon name='add-circle-outline' />}
+                    type='clear'
+                    style={styles.iconButton} 
+                    onPress={handleAddItemPress}
+                />
                 <Text style={styles.calories}>{calories} Kcal</Text>
             </View>
         </View>

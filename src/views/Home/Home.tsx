@@ -1,17 +1,64 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { Button, Icon } from '@rneui/themed';
 
 import Header from '../../components/Header';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types';
+import { Meal, RootStackParamList } from '../../types';
+import useFoodStorage from '../../hooks/useFoodStorage';
+import TodayCalories from '../../components/TodayCalories';
+import { TodayCaloriesProps } from '../../components/TodayCalories/TodayCalories'; 
+
+const totalCaloriesPerDay = 2000;
 
 const Home = () => {
 
+    const [todayFood, setTodayFood] = useState<Meal[]>([]);
+    const [todayStatistics, setTodayStatistics] = useState<TodayCaloriesProps>();
+    const {onGetTodayFood} = useFoodStorage();
     const {navigate} = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>();
+
+    const calculateTodayStatistics = (meals: Meal[]) => {
+        try {
+            const caloriesConsumed = meals.reduce((acum, curr) => acum + Number(curr.calories),0);
+            // const caloriesConsumed = 100;
+            const remaingCalories = totalCaloriesPerDay - caloriesConsumed
+            const percentage = (caloriesConsumed / totalCaloriesPerDay) * 100;
+            setTodayStatistics({
+                total: totalCaloriesPerDay,
+                consumed: caloriesConsumed,
+                percentage,
+                remaining: remaingCalories, 
+            });
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+
+    const loadTodayFood = useCallback(async () => {
+        
+        try {
+
+            const todayFoodResponse = (await onGetTodayFood()) as Meal[];
+            
+            calculateTodayStatistics(todayFoodResponse);
+            setTodayFood(todayFoodResponse);
+        
+        } catch (error) {
+
+            setTodayFood([]);
+            console.error(error);
+        }
+
+    },[]);
+
+    useFocusEffect(useCallback(() => {
+        loadTodayFood().catch(null);
+    }, [loadTodayFood]));
 
     const handleAddCaloriesPress = () => {
         navigate('AddFood');
@@ -33,6 +80,7 @@ const Home = () => {
                     />
                 </View>
             </View>
+            <TodayCalories {...todayStatistics} />
         </View>
     );
 };
