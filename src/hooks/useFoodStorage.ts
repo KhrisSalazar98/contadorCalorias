@@ -83,7 +83,6 @@ const useFoodStorage = () => {
             
             if (foods !== null) {
                 const parsedFoods = JSON.parse(foods) as Meal[];
-
                 return Promise.resolve(parsedFoods.filter(meal => meal.date && isToday(new Date(meal.date))));
             }
         

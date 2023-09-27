@@ -47,7 +47,7 @@ const Home = () => {
             
             calculateTodayStatistics(todayFoodResponse);
             setTodayFood(todayFoodResponse);
-        
+
         } catch (error) {
 
             setTodayFood([]);
